@@ -28,6 +28,7 @@ def build_dataset(path,shuffle=True):
     if shuffle == True:
         dataset = dataset.shuffle(buffer_size=1000, seed=42)
     dataset = dataset.padded_batch(batch_size,padded_shapes=([-1],[]),padding_values=(tf.constant(pad_value, dtype=tf.string),tf.constant(1, dtype=tf.int64)))
+    dataset = dataset.map(lambda text, label: (text, tf.one_hot(label, 3)))
     return dataset
 
 if __name__ == "__main__":
